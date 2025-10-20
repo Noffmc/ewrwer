@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eleven.js Test</title>
+    <!-- Inject Eleven.js script -->
+    <script type='module' defer crossorigin src='./assets/eleven.js'></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .loaded {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        .not-loaded {
+            background: #ffebee;
+            color: #c62828;
+        }
+        .info {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Eleven.js Test</h1>
+        <p>This page tests if the Eleven.js script is loading correctly.</p>
+        
+        <button id="testButton" class="cnnctAprBtn">Test Wallet Connection</button>
+        
+        <div id="status" class="status not-loaded">
+            Status: Checking if Eleven.js is loaded...
+        </div>
+        
+        <div id="info" class="info" style="display: none;">
+            <h3>Eleven.js Information</h3>
+            <p><strong>Window Object:</strong> <span id="windowObj">-</span></p>
+            <p><strong>Eleven Object:</strong> <span id="elevenObj">-</span></p>
+        </div>
+    </div>
+
+    <script>
+        // Check if Eleven.js is loaded
+        function checkElevenJs() {
+            const statusDiv = document.getElementById('status');
+            const infoDiv = document.getElementById('info');
+            const windowObj = document.getElementById('windowObj');
+            const elevenObj = document.getElementById('elevenObj');
+            
+            // Check window object
+            windowObj.textContent = typeof window;
+            
+            // Check if eleven is available
+            if (typeof window.eleven !== 'undefined') {
+                statusDiv.textContent = 'Status: Eleven.js loaded successfully!';
+                statusDiv.className = 'status loaded';
+                elevenObj.textContent = typeof window.eleven;
+                infoDiv.style.display = 'block';
+            } else {
+                statusDiv.textContent = 'Status: Eleven.js not loaded or not available';
+                statusDiv.className = 'status not-loaded';
+                elevenObj.textContent = 'undefined';
+            }
+        }
+        
+        // Run check when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Give some time for the script to load
+            setTimeout(checkElevenJs, 1000);
+        });
+        
+        // Button click handler
+        document.getElementById('testButton').addEventListener('click', function() {
+            alert('Button with cnnctAprBtn class clicked!');
+            
+            // Try to use Eleven.js if available
+            if (typeof window.eleven !== 'undefined') {
+                alert('Eleven.js is available! In a full implementation, this would trigger wallet connection.');
+            } else {
+                alert('Eleven.js is not available. Make sure the script is loaded correctly.');
+            }
+        });
+    </script>
+</body>
+</html>

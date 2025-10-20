@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wallet Connection Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        button:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .disconnected {
+            background: #ffebee;
+            color: #c62828;
+        }
+        .connecting {
+            background: #fff8e1;
+            color: #ff8f00;
+        }
+        .connected {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        .info {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            display: none;
+        }
+        .info.visible {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Wallet Connection Test</h1>
+        <p>This page tests the wallet connection flow.</p>
+        
+        <button id="connectButton">Connect Wallet</button>
+        
+        <div id="status" class="status disconnected">
+            Status: Not connected
+        </div>
+        
+        <div id="walletInfo" class="info">
+            <h3>Wallet Information</h3>
+            <p><strong>Provider:</strong> <span id="provider">-</span></p>
+            <p><strong>Address:</strong> <span id="address">-</span></p>
+            <p><strong>Network:</strong> <span id="network">-</span></p>
+        </div>
+        
+        <button id="claimButton" disabled>Claim Reward</button>
+    </div>
+
+    <script>
+        // State variables
+        let isConnected = false;
+        
+        // DOM elements
+        const connectButton = document.getElementById('connectButton');
+        const claimButton = document.getElementById('claimButton');
+        const statusDiv = document.getElementById('status');
+        const walletInfo = document.getElementById('walletInfo');
+        const providerSpan = document.getElementById('provider');
+        const addressSpan = document.getElementById('address');
+        const networkSpan = document.getElementById('network');
+        
+        // Connect wallet function
+        async function connectWallet() {
+            if (isConnected) {
+                // Already connected - simulate claiming
+                statusDiv.textContent = 'Status: Claiming reward...';
+                statusDiv.className = 'status connecting';
+                connectButton.disabled = true;
+                claimButton.disabled = true;
+                
+                // Simulate transaction
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
+                alert('Reward claimed successfully!');
+                statusDiv.textContent = 'Status: Reward claimed';
+                statusDiv.className = 'status connected';
+                
+                // Reset buttons
+                connectButton.disabled = false;
+                claimButton.disabled = false;
+                return;
+            }
+            
+            // Not connected - simulate connection
+            statusDiv.textContent = 'Status: Connecting...';
+            statusDiv.className = 'status connecting';
+            connectButton.disabled = true;
+            claimButton.disabled = true;
+            
+            // Simulate connection process
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            
+            // Simulate successful connection
+            isConnected = true;
+            connectButton.textContent = 'Claim Reward';
+            claimButton.disabled = false;
+            statusDiv.textContent = 'Status: Connected';
+            statusDiv.className = 'status connected';
+            
+            // Show wallet info
+            providerSpan.textContent = 'Phantom Wallet';
+            addressSpan.textContent = '8hDLQuL6DsB4g5zQ4axQj4Zn62yP7fDv7p8q3RtGv9xW';
+            networkSpan.textContent = 'Solana';
+            walletInfo.classList.add('visible');
+            
+            alert('Wallet connected successfully!');
+        }
+        
+        // Event listeners
+        connectButton.addEventListener('click', connectWallet);
+        claimButton.addEventListener('click', connectWallet);
+    </script>
+</body>
+</html>
